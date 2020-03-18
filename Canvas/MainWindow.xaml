@@ -1,0 +1,33 @@
+﻿<Window x:Class="Canvas.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Canvas"
+        mc:Ignorable="d"
+        Title="CanvasDrawer" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Click="ChangeToNormalBrush">Normal Brush</Button>
+            <Button Grid.Column="1" Click="ChangeToVectorBrush">Vector Brush</Button>
+        </Grid>
+        
+        <Canvas Grid.Column="0" Grid.Row="1" Name="PaintSurface" MouseLeftButtonDown="Canvas_MouseDown_1" MouseMove="Canvas_MouseMove_1" MouseLeftButtonUp="Canvas_MouseLeftButtonUp_1" MouseRightButtonDown="Canvas_RMouseLeftButtonDown_1">
+            <Canvas.Background>
+                <SolidColorBrush Color="White" Opacity="0"></SolidColorBrush>
+            </Canvas.Background>
+        </Canvas>
+    </Grid>
+</Window>
