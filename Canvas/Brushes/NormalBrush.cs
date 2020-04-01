@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
-using Canvas.Interfaces;
+using Brush = Canvas.Interfaces.Brush;
 
 namespace Canvas.Brushes
 {
@@ -24,7 +25,7 @@ namespace Canvas.Brushes
             
             var line = new Line
             {
-                Stroke = SystemColors.WindowFrameBrush,
+                Stroke = this.CurrentColor,
                 X1 = currentPoint.X,
                 Y1 = currentPoint.Y,
                 X2 = e.GetPosition(canvas).X,
@@ -32,7 +33,6 @@ namespace Canvas.Brushes
             };
 
             currentPoint = e.GetPosition(canvas);
-
             canvas.Children.Add(line);
         }
 

@@ -1,17 +1,20 @@
 ﻿using System.Runtime.Loader;
-using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Canvas.Brushes;
+using Color = System.Drawing.Color;
+using Point = System.Windows.Point;
 
 namespace Canvas.Interfaces
 {
     public abstract class Brush
     {
         private Brush _currentBrush;
+        public SolidColorBrush CurrentColor { get; set; }
 
         protected Brush()
         {
-            
+            this.CurrentColor = new SolidColorBrush(Colors.Black);
         }
 
         public virtual void ChangeBrush(Brush brush)

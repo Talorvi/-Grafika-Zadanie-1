@@ -45,7 +45,7 @@ namespace Canvas.Brushes
             {
                 var line = new Line
                 {
-                    Stroke = SystemColors.WindowFrameBrush,
+                    Stroke = this.CurrentColor,
                     X1 = this._a.Value.X,
                     Y1 = this._a.Value.Y,
                     X2 = this._b.Value.X,

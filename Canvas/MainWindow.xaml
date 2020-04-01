@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Canvas"
         mc:Ignorable="d"
-        Title="CanvasDrawer" Height="450" Width="800">
+        Title="CanvasDrawer" Height="450" Width="800"
+        Loaded="MainWindow_OnLoaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -13,6 +14,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="10*" />
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         
         <Grid Grid.Column="0" Grid.Row="0">
@@ -29,5 +32,96 @@
                 <SolidColorBrush Color="White" Opacity="0"></SolidColorBrush>
             </Canvas.Background>
         </Canvas>
+        
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="5">Red:</Label>
+                        <TextBox Grid.Column="1" Margin="5" Name="Red" TextChanged="OnColorTextChanged" PreviewTextInput="NumberValidationTextBox"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="5">Green:</Label>
+                        <TextBox Grid.Column="1" Margin="5" Name="Green" TextChanged="OnColorTextChanged" PreviewTextInput="NumberValidationTextBox"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="5">Blue:</Label>
+                        <TextBox Grid.Column="1" Margin="5" Name="Blue" TextChanged="OnColorTextChanged" PreviewTextInput="NumberValidationTextBox"></TextBox>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Column="0" Grid.Row="3">
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="5">Cyan:</Label>
+                        <TextBox Grid.Column="1" Margin="5" Name="Cyan" TextChanged="OnColorTextChangedCMY" PreviewTextInput="NumberValidationTextBoxCmy"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="5">Magenta:</Label>
+                        <TextBox Grid.Column="1" Margin="5" Name="Magenta" TextChanged="OnColorTextChangedCMY" PreviewTextInput="NumberValidationTextBoxCmy"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="5">Yellow:</Label>
+                        <TextBox Grid.Column="1" Margin="5" Name="Yellow" TextChanged="OnColorTextChangedCMY" PreviewTextInput="NumberValidationTextBoxCmy"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Margin="5">Black:</Label>
+                        <TextBox Grid.Column="1" Margin="5" Name="Black" TextChanged="OnColorTextChangedCMY" PreviewTextInput="NumberValidationTextBoxCmy"></TextBox>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
