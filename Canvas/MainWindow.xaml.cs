@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Canvas.Brushes;
+using Canvas.ColorModels;
+using Canvas.Helpers;
 using Brush = Canvas.Interfaces.Brush;
 using Color = System.Drawing.Color;
 
@@ -31,7 +33,6 @@ namespace Canvas
         {
             PreInit, Init, CmykToRgb, RgbToCmyk
         }
-
         private ConvertStance _convertStance = ConvertStance.PreInit;
         
         public MainWindow()
@@ -82,33 +83,27 @@ namespace Canvas
                 return;
             }
 
-            var red = Convert.ToByte(Red.Text);
-            var green =  Convert.ToByte(int.Parse(Green.Text));
-            var blue = Convert.ToByte(int.Parse(Blue.Text));
-
             if (this._convertStance == ConvertStance.Init)
             {
                 this._convertStance = ConvertStance.RgbToCmyk;
-
             }
             
+            var red = Convert.ToInt32(Red.Text);
+            var green =  Convert.ToInt32(Green.Text);
+            var blue = Convert.ToInt32(Blue.Text);
+            var rgb = new ModelRgb(red, green, blue);
+
             if (this._convertStance == ConvertStance.RgbToCmyk)
             {
-                double redval = red / 255f;
-                double greenval = green / 255f;
-                double blueval = blue / 255f;
-
-                var black = (1 - Math.Max(Math.Max(redval, greenval), blueval));
-                Black.Text = black.ToString();
-                var cyan = (1 - redval - double.Parse(Black.Text)) * 100/(1 - black);
-                Cyan.Text = Convert.ToInt32(cyan).ToString();
-                var magenta = (1 - greenval - double.Parse(Black.Text)) * 100 / (1 - black);
-                Magenta.Text = Convert.ToInt32(magenta).ToString();
-                var yellow = (1 - blueval - double.Parse(Black.Text)) * 100 / (1 - black);
-                Yellow.Text = Convert.ToInt32(yellow).ToString();
+                var cmyk = ModelCmyk.ConvertFromRgb(rgb);
+                
+                Black.Text = cmyk.Black.ToString();
+                Cyan.Text = cmyk.Cyan.ToString();
+                Magenta.Text = cmyk.Magenta.ToString();
+                Yellow.Text = cmyk.Yellow.ToString();
             }
 
-            this._brush.CurrentColor = new SolidColorBrush(System.Windows.Media.Color.FromRgb(red, green, blue));
+            this._brush.CurrentColor = new SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(rgb.Red), Convert.ToByte(rgb.Green), Convert.ToByte(rgb.Blue)));
             this._convertStance = ConvertStance.Init;
         }
 
@@ -127,61 +122,34 @@ namespace Canvas
 
             if (this._convertStance != ConvertStance.CmykToRgb) return;
             
-            var red = 255 * (1 - float.Parse(Cyan.Text) / 100) * (1 - float.Parse(Black.Text)/100);
-            var green = 255 * (1 - float.Parse(Magenta.Text) / 100) * (1 - float.Parse(Black.Text)/100);
-            var blue = 255 * (1 - float.Parse(Yellow.Text) / 100) * (1 - float.Parse(Black.Text)/100);
+            var cyan = Convert.ToInt32(Cyan.Text);
+            var magenta =  Convert.ToInt32(Magenta.Text);
+            var yellow = Convert.ToInt32(Yellow.Text);
+            var black = Convert.ToInt32(Black.Text);
             
-            Red.Text = Convert.ToInt32(red).ToString();
-            Green.Text = Convert.ToInt32(green).ToString();
-            Blue.Text = Convert.ToInt32(blue).ToString();
-            
-            var redval = Convert.ToByte(Red.Text);
-            var greenval =  Convert.ToByte(int.Parse(Green.Text));
-            var blueval = Convert.ToByte(int.Parse(Blue.Text));
+            var cmyk = new ModelCmyk(cyan, magenta, yellow, black);
+            var rgb = ModelRgb.ConvertFromCmyk(cmyk);
 
-            this._brush.CurrentColor = new SolidColorBrush(System.Windows.Media.Color.FromRgb(redval, greenval, blueval));
+            Red.Text = rgb.Red.ToString();
+            Green.Text = rgb.Green.ToString();
+            Blue.Text = rgb.Blue.ToString();
+
+            this._brush.CurrentColor = new SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(rgb.Red), Convert.ToByte(rgb.Green), Convert.ToByte(rgb.Blue)));
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            var regex = new Regex("[^0-9]+");
-            var isMatch = regex.IsMatch(e.Text);
-
-            if (isMatch)
-            {
-                e.Handled = regex.IsMatch(e.Text);
-                return;
-            }
-
-            var sender2 = (TextBox) sender;
-            if (sender2.Text == string.Empty) return;
-            
-            var newValue = int.Parse(sender2.Text + e.Text);
-            var handled = newValue > 255;
-            e.Handled = handled;
+            ValidatorHelper.ValidateTextBox(sender, ref e, 255);
         }
         
         private void NumberValidationTextBoxCmy(object sender, TextCompositionEventArgs e)
         {
-            var regex = new Regex("[^0-9]+");
-            var isMatch = regex.IsMatch(e.Text);
-
-            if (isMatch)
-            {
-                e.Handled = regex.IsMatch(e.Text);
-                return;
-            }
-
-            var sender2 = (TextBox) sender;
-            if (sender2.Text == string.Empty) return;
-            
-            var newValue = int.Parse(sender2.Text + e.Text);
-            var handled = newValue > 100;
-            e.Handled = handled;
+            ValidatorHelper.ValidateTextBox(sender,ref e, 100);
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
+            //init text fields
             this.Red.Text = "0";
             this.Green.Text = "0";
             this.Blue.Text = "0";
